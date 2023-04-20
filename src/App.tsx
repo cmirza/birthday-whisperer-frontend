@@ -1,33 +1,37 @@
 import { useState } from 'react'
+import LoginForm from './components/LoginForm'
+import { login, register } from './api/auth'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+
+  const handleLogin = async (email: string, password: string) => {
+    try {
+      const response = await login({ email, password });
+      localStorage.setItem('token', response.token);
+      console.log('Login success: ', response);
+    } catch (error) {
+      console.log('Login error: ', error);
+    }
+  };
+
+  const handleRegister = async (email: string, password: string, phone: string) => {
+    try {
+      const response = await register({ email, password, phone });
+      localStorage.setItem('token', response.token);
+      console.log('Register response:', response);
+    } catch (error) {
+      console.error('Register error:', error);
+    }
+  };
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>Login / Register</h1>
+      <LoginForm onLogin={handleLogin} onRegister={handleRegister} />
     </div>
   )
 }
