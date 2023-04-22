@@ -15,7 +15,8 @@ const LoginForm: React.FC<Props> = ({ onLogin, onRegister }) => {
         onLogin(email, password);
     };
 
-    const handleRegister = () => {
+    const handleRegister = (e: React.MouseEvent) => {
+        e.preventDefault();
         onRegister(email, password, phone);
     };
 
@@ -48,7 +49,7 @@ const LoginForm: React.FC<Props> = ({ onLogin, onRegister }) => {
                     />
                 </label>
                 <button type="submit">Login</button>
-                <button type="button" onClick={handleRegister}>
+                <button type="button" onClick={(e) => handleRegister(e)}>
                     Register
                 </button>
             </form>
