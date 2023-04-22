@@ -34,11 +34,11 @@ const ContactsList: React.FC<Props> = ({ contacts, onUpdate, onDelete }) => {
             ) : (
               <>
                 {contact.name} - {contact.birthdate}
-                <button onClick={() => contact._id && onDelete(contact._id)}>
-                  Delete
-                </button>
                 <button onClick={() => contact._id && handleEdit(contact._id)}>
                   Edit
+                </button>
+                <button onClick={() => contact._id && onDelete(contact._id)}>
+                  Delete
                 </button>
               </>
             )}

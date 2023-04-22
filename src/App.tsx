@@ -12,6 +12,13 @@ function App() {
   const [contacts, setContacts] = useState<ContactData[]>([]);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setLoggedIn(true);
+    }
+  }, []);
+
+  useEffect(() => {
     (async () => {
       if (loggedIn) {
         try {
@@ -85,16 +92,23 @@ function App() {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setLoggedIn(false);
+  };
+
   return (
     <div className="App">
-      <h1>Login / Register</h1>
-      <LoginForm onLogin={handleLogin} onRegister={handleRegister} />
+      <h1>Birthday Whisperer</h1>
+      {!loggedIn && <LoginForm onLogin={handleLogin} onRegister={handleRegister} />}
       {loggedIn && (
         <>
           <hr />
           <AddContactForm onAdd={handleAddContact} />
           <hr />
           <ContactsList onUpdate={handleUpdateContact} onDelete={handleDeleteContact} contacts={contacts} />
+          <hr />
+          <button onClick={handleLogout}>Logout</button>
         </>
       )}
     </div>
