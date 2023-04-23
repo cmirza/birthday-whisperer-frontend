@@ -13,7 +13,7 @@ const getHeaders = () => {
 };
 
 export const addContact = async (data: ContactData) => {
-    const response = await fetch('http://localhost:3000/api/contacts', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/contacts`, {
         method: 'POST',
         headers: getHeaders(),
         body: JSON.stringify(data),
@@ -27,7 +27,7 @@ export const addContact = async (data: ContactData) => {
 };
 
 export const deleteContact = async (contactId: string) => {
-    const response = await fetch(`http://localhost:3000/api/contacts/${contactId}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/contacts/${contactId}`, {
         method: 'DELETE',
         headers: getHeaders(),
     });
@@ -40,7 +40,7 @@ export const deleteContact = async (contactId: string) => {
 };
 
 export const updateContact = async (contactId: string, data: ContactData) => {
-    const response = await fetch(`http://localhost:3000/api/contacts/${contactId}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/contacts/${contactId}`, {
         method: 'PUT',
         headers: getHeaders(),
         body: JSON.stringify(data),
@@ -54,7 +54,7 @@ export const updateContact = async (contactId: string, data: ContactData) => {
 };
 
 export const getContacts = async () => {
-    const response = await fetch('http://localhost:3000/api/contacts', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/contacts`, {
         headers: getHeaders(),
     });
 
