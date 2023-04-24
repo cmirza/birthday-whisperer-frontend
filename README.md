@@ -21,3 +21,6 @@ Birthday Whisperer is a simple, SMS birthday reminder service. The frontend util
 - Added handling for retrieval, editing and deletion of contacts
 - Maintain logged in state after refresh and added logout button
 - Fix for registration bug
+
+#### April 23, 2023
+- Added passwordless auth with SMS

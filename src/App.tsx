@@ -2,14 +2,20 @@ import { useState, useEffect } from "react";
 import LoginForm from "./components/LoginForm";
 import ContactsList from "./components/ContactsList";
 import AddContactForm from "./components/AddContactForm";
-import { login, register } from "./api/auth";
-import { getContacts, addContact, updateContact, deleteContact, ContactData } from "./api/contacts";
+import { requestOTP, verifyOTPLogin, verifyOTPRegister } from "./api/auth";
+import {
+  getContacts,
+  addContact,
+  updateContact,
+  deleteContact,
+  ContactData,
+} from "./api/contacts";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
   const [loggedIn, setLoggedIn] = useState(false);
   const [contacts, setContacts] = useState<ContactData[]>([]);
+  const [isNewUser, setIsNewUser] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -31,9 +37,19 @@ function App() {
     })();
   }, [loggedIn]);
 
-  const handleLogin = async (email: string, password: string) => {
+  const handleRequestOTP = async (phone: string) => {
     try {
-      const response = await login({ email, password });
+      const response = await requestOTP({ phone });
+      console.log("OTP requested: ", response);
+      setIsNewUser(response.isNewUser);
+    } catch (error) {
+      console.log("Request OTP error: ", error);
+    }
+  };
+
+  const handleLogin = async (phone: string, otp: string) => {
+    try {
+      const response = await verifyOTPLogin({ phone, otp });
       localStorage.setItem("token", response.token);
       console.log("Login success: ", response);
       setLoggedIn(true);
@@ -42,13 +58,9 @@ function App() {
     }
   };
 
-  const handleRegister = async (
-    email: string,
-    password: string,
-    phone: string
-  ) => {
+  const handleRegister = async (phone: string, otp: string) => {
     try {
-      const response = await register({ email, password, phone });
+      const response = await verifyOTPRegister({ phone, otp });
       localStorage.setItem("token", response.token);
       console.log("Register response:", response);
       setLoggedIn(true);
@@ -81,12 +93,13 @@ function App() {
     }
   };
 
-
   const handleDeleteContact = async (contactId: string) => {
     try {
       await deleteContact(contactId);
       console.log("Deleted contact:", contactId);
-      setContacts((prevContacts) => prevContacts.filter((contact) => contact._id !== contactId));
+      setContacts((prevContacts) =>
+        prevContacts.filter((contact) => contact._id !== contactId)
+      );
     } catch (error) {
       console.error("Error deleting contact:", error);
     }
@@ -100,13 +113,24 @@ function App() {
   return (
     <div className="App">
       <h1>Birthday Whisperer</h1>
-      {!loggedIn && <LoginForm onLogin={handleLogin} onRegister={handleRegister} />}
+      {!loggedIn && (
+        <LoginForm
+          onLogin={handleLogin}
+          onRegister={handleRegister}
+          onRequestOTP={handleRequestOTP}
+          isNewUser={isNewUser}
+        />
+      )}
       {loggedIn && (
         <>
           <hr />
           <AddContactForm onAdd={handleAddContact} />
           <hr />
-          <ContactsList onUpdate={handleUpdateContact} onDelete={handleDeleteContact} contacts={contacts} />
+          <ContactsList
+            onUpdate={handleUpdateContact}
+            onDelete={handleDeleteContact}
+            contacts={contacts}
+          />
           <hr />
           <button onClick={handleLogout}>Logout</button>
         </>
