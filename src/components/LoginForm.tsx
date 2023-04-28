@@ -42,72 +42,71 @@ const LoginForm: React.FC<Props> = ({
   };
 
   return (
-    <div>
-      {!showOTPInput ? (
-        <div>
-          <Typography variant="h6" component="h2" gutterBottom>
-            Login / Register
-          </Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                label="Phone"
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                type="submit"
-                variant="contained"
-                onClick={handleRequestOTP}
-              >
-                Send
-              </Button>
-            </Grid>
-          </Grid>
-        </div>
-      ) : (
-        <form onSubmit={handleLogin}>
-          {isNewUser === true && (
-            <p>Welcome, new user! Please enter the OTP sent to your phone.</p>
-          )}
-          {isNewUser === false && (
-            <p>Welcome back! Please enter the OTP sent to your phone.</p>
-          )}
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                label="OTP"
-                type="text"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12}>
-              {isNewUser === false && (
+    <form onSubmit={showOTPInput ? handleLogin : handleRequestOTP}>
+      <div>
+        {!showOTPInput ? (
+          <div>
+            <Typography variant="body1" component="h2" gutterBottom>
+              Login / Register
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  label="Phone"
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
                 <Button type="submit" variant="contained">
-                  Login
+                  Send
                 </Button>
-              )}
-              {isNewUser === true && (
-                <Button
-                  type="submit"
-                  variant="contained"
-                  onClick={handleRegister}
-                >
-                  Register
-                </Button>
-              )}
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-      )}
-    </div>
+          </div>
+        ) : (
+          <div>
+            {isNewUser === true && (
+              <p>Welcome, new user! Please enter the OTP sent to your phone.</p>
+            )}
+            {isNewUser === false && (
+              <p>Welcome back! Please enter the OTP sent to your phone.</p>
+            )}
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  label="OTP"
+                  type="text"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
+                {isNewUser === false && (
+                  <Button type="submit" variant="contained">
+                    Login
+                  </Button>
+                )}
+                {isNewUser === true && (
+                  <Button
+                    type="button"
+                    variant="contained"
+                    onClick={handleRegister}
+                  >
+                    Register
+                  </Button>
+                )}
+              </Grid>
+            </Grid>
+          </div>
+        )}
+      </div>
+    </form>
   );
+  
 };
 
 export default LoginForm;
