@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Container, Typography, Grid, Box, Button } from "@mui/material";
 import LoginForm from "./components/LoginForm";
 import ContactsList from "./components/ContactsList";
 import AddContactForm from "./components/AddContactForm";
@@ -111,31 +112,46 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1>Birthday Whisperer</h1>
-      {!loggedIn && (
-        <LoginForm
-          onLogin={handleLogin}
-          onRegister={handleRegister}
-          onRequestOTP={handleRequestOTP}
-          isNewUser={isNewUser}
-        />
-      )}
-      {loggedIn && (
-        <>
-          <hr />
-          <AddContactForm onAdd={handleAddContact} />
-          <hr />
-          <ContactsList
-            onUpdate={handleUpdateContact}
-            onDelete={handleDeleteContact}
-            contacts={contacts}
+    <Container maxWidth="md">
+      <Box pt={4}>
+        <Typography variant="h4" gutterBottom>
+          Birthday Whisperer
+        </Typography>
+        {!loggedIn && (
+          <LoginForm
+            onLogin={handleLogin}
+            onRegister={handleRegister}
+            onRequestOTP={handleRequestOTP}
+            isNewUser={isNewUser}
           />
-          <hr />
-          <button onClick={handleLogout}>Logout</button>
-        </>
-      )}
-    </div>
+        )}
+        {loggedIn && (
+          <>
+            <Grid container spacing={4}>
+              <Grid item xs={12}>
+                <AddContactForm onAdd={handleAddContact} />
+              </Grid>
+              <Grid item xs={12}>
+                <ContactsList
+                  onUpdate={handleUpdateContact}
+                  onDelete={handleDeleteContact}
+                  contacts={contacts}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              </Grid>
+            </Grid>
+          </>
+        )}
+      </Box>
+    </Container>
   );
 }
 

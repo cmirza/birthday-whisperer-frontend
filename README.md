@@ -26,3 +26,6 @@ View this app on [https://birthday-whisperer-frontend.onrender.com/](https://bir
 
 #### April 23, 2023
 - Added passwordless auth with SMS
+
+#### April 27, 2023
+- Added MaterialUI

@@ -1,6 +1,16 @@
 import { useState } from "react";
 import { ContactData } from "../api/contacts";
 import EditContactForm from "./EditContactForm";
+import {
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  IconButton,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface Props {
   contacts: ContactData[];
@@ -21,10 +31,18 @@ const ContactsList: React.FC<Props> = ({ contacts, onUpdate, onDelete }) => {
 
   return (
     <div>
-      <h2>Contacts</h2>
-      <ul>
+      <Typography variant="h5" component="h2" gutterBottom>
+        Contacts
+      </Typography>
+      <List>
         {contacts.map((contact) => (
-          <li key={contact._id}>
+          <ListItem
+            key={contact._id}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             {editingContact === contact._id ? (
               <EditContactForm
                 contact={contact}
@@ -33,18 +51,29 @@ const ContactsList: React.FC<Props> = ({ contacts, onUpdate, onDelete }) => {
               />
             ) : (
               <>
-                {contact.name} - {contact.birthdate}
-                <button onClick={() => contact._id && handleEdit(contact._id)}>
-                  Edit
-                </button>
-                <button onClick={() => contact._id && onDelete(contact._id)}>
-                  Delete
-                </button>
+                <ListItemText
+                  primary={contact.name}
+                  secondary={contact.birthdate}
+                />
+                <ListItemSecondaryAction>
+                  <IconButton
+                    edge="end"
+                    onClick={() => contact._id && handleEdit(contact._id)}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    edge="end"
+                    onClick={() => contact._id && onDelete(contact._id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
               </>
             )}
-          </li>
+          </ListItem>
         ))}
-      </ul>
+      </List>
     </div>
   );
 };
