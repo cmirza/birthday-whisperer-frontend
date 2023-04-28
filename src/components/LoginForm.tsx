@@ -26,12 +26,14 @@ const LoginForm: React.FC<Props> = ({
     onLogin(phone, otp);
   };
 
-  const handleRegister = (e: React.MouseEvent) => {
+  const handleRegister = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     onRegister(phone, otp);
   };
 
-  const handleRequestOTP = async (e: React.MouseEvent) => {
+  const handleRequestOTP = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await onRequestOTP(phone);
@@ -94,7 +96,7 @@ const LoginForm: React.FC<Props> = ({
                   <Button
                     type="button"
                     variant="contained"
-                    onClick={handleRegister}
+                    onClick={handleRequestOTP}
                   >
                     Register
                   </Button>
@@ -106,7 +108,6 @@ const LoginForm: React.FC<Props> = ({
       </div>
     </form>
   );
-  
 };
 
 export default LoginForm;
