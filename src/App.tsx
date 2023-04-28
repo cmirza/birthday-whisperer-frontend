@@ -1,5 +1,14 @@
 import { useState, useEffect } from "react";
-import { Container, Typography, Grid, Box, Button } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Container,
+  Typography,
+  Grid,
+  Box,
+  Button,
+} from "@mui/material";
+import CakeIcon from "@mui/icons-material/Cake";
 import LoginForm from "./components/LoginForm";
 import ContactsList from "./components/ContactsList";
 import AddContactForm from "./components/AddContactForm";
@@ -114,9 +123,14 @@ function App() {
   return (
     <Container maxWidth="md">
       <Box pt={4}>
-        <Typography variant="h4" gutterBottom>
-          Birthday Whisperer
-        </Typography>
+        <AppBar position="fixed">
+          <Toolbar>
+          <Typography variant="h5" component="div" sx={{ fontWeight: "bold" }}>
+              <CakeIcon sx={{ mr: 2, fontSize: "2rem" }} />
+              <Box component="span" sx={{ mt: 1 }}>Birthday Whisperer</Box>
+            </Typography>
+          </Toolbar>
+        </AppBar>
         {!loggedIn && (
           <LoginForm
             onLogin={handleLogin}
