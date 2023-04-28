@@ -124,10 +124,20 @@ function App() {
     <Container maxWidth="md">
       <Box pt={4}>
         <AppBar position="fixed">
-          <Toolbar>
-          <Typography variant="h5" component="div" sx={{ fontWeight: "bold" }}>
-              <CakeIcon sx={{ mr: 2, fontSize: "2rem" }} />
-              <Box component="span" sx={{ mt: 1 }}>Birthday Whisperer</Box>
+          <Toolbar sx={{ justifyContent: "center" }}>
+            <Typography
+              variant="h5"
+              component="div"
+              sx={{
+                fontWeight: "bold",
+                display: "flex",
+                alignItems: "flex-end",
+              }}
+            >
+              <CakeIcon sx={{ mr: 2, mb: .7, fontSize: "2rem" }} />
+              <Box component="span" sx={{ mt: 1 }}>
+                Birthday Whisperer
+              </Box>
             </Typography>
           </Toolbar>
         </AppBar>
