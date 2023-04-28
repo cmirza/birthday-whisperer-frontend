@@ -1,4 +1,8 @@
 import { useState } from "react";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
 
 interface Props {
   onLogin: (phone: string, otp: string) => void;
@@ -41,18 +45,29 @@ const LoginForm: React.FC<Props> = ({
     <div>
       {!showOTPInput ? (
         <div>
-          <h2>Login / Register</h2>
-          <label>
-            Phone:
-            <input
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-          </label>
-          <button type="button" onClick={handleRequestOTP}>
-            Send
-          </button>
+          <Typography variant="h6" component="h2" gutterBottom>
+            Login / Register
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                label="Phone"
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                type="submit"
+                variant="contained"
+                onClick={handleRequestOTP}
+              >
+                Send
+              </Button>
+            </Grid>
+          </Grid>
         </div>
       ) : (
         <form onSubmit={handleLogin}>
@@ -62,21 +77,33 @@ const LoginForm: React.FC<Props> = ({
           {isNewUser === false && (
             <p>Welcome back! Please enter the OTP sent to your phone.</p>
           )}
-          <label>
-            OTP:
-            <input
-              type="text"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-            />
-          </label>
-
-          {isNewUser === false && <button type="submit">Login</button>}
-          {isNewUser === true && (
-            <button type="button" onClick={handleRegister}>
-              Register
-            </button>
-          )}
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                label="OTP"
+                type="text"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              {isNewUser === false && (
+                <Button type="submit" variant="contained">
+                  Login
+                </Button>
+              )}
+              {isNewUser === true && (
+                <Button
+                  type="submit"
+                  variant="contained"
+                  onClick={handleRegister}
+                >
+                  Register
+                </Button>
+              )}
+            </Grid>
+          </Grid>
         </form>
       )}
     </div>
