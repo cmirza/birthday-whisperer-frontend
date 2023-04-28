@@ -32,37 +32,47 @@ const AddContactForm: React.FC<Props> = ({ onAdd }) => {
     <Box component="div">
       {!showForm && (
         <Button onClick={handleClick} variant="contained" color="primary">
-        <Typography variant="h3" component="div" sx={{ fontSize: '1.5rem' }}>+</Typography>
-      </Button>
+          <Typography variant="h3" component="div" sx={{ fontSize: "1.5rem" }}>
+            +
+          </Typography>
+        </Button>
       )}
       {showForm && (
         <>
           <form onSubmit={handleAdd}>
-            <FormControl fullWidth margin="normal">
-              <TextField
-                id="name"
-                label="Name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </FormControl>
-            <FormControl fullWidth margin="normal">
-              <TextField
-                id="birthdate"
-                label="Birthdate"
-                type="date"
-                value={birthdate}
-                onChange={(e) => setBirthdate(e.target.value)}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                inputProps={{
-                  min: "1900-01-01",
-                  max: "2099-12-31",
-                }}
-              />
-            </FormControl>
+            <Box display="flex" justifyContent="center" flexDirection="column" alignItems="center">
+              <Box>
+                <FormControl margin="normal">
+                  <TextField
+                    id="name"
+                    label="Name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    sx={{ width: "308.5px" }}
+                  />
+                </FormControl>
+              </Box>
+              <Box>
+                <FormControl margin="normal">
+                  <TextField
+                    id="birthdate"
+                    label="Birthdate"
+                    type="date"
+                    value={birthdate}
+                    onChange={(e) => setBirthdate(e.target.value)}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      min: "1900-01-01",
+                      max: "2099-12-31",
+                    }}
+                    sx={{ width: "308.5px" }}
+                  />
+                </FormControl>
+              </Box>
+            </Box>
             <Box display="flex" justifyContent="center">
               <Box ml={1}>
                 <Button type="submit" variant="contained" color="primary">
@@ -76,6 +86,7 @@ const AddContactForm: React.FC<Props> = ({ onAdd }) => {
       )}
     </Box>
   );
+  
 };
 
 export default AddContactForm;

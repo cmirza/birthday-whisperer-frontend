@@ -50,7 +50,7 @@ const ContactsList: React.FC<Props> = ({ contacts, onUpdate, onDelete }) => {
               <>
                 <ListItemText
                   primary={contact.name}
-                  secondary={contact.birthdate}
+                  secondary={new Date(contact.birthdate).toLocaleDateString()}
                 />
                 <ListItemSecondaryAction>
                   <IconButton
