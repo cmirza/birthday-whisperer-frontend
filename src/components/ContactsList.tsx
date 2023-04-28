@@ -31,9 +31,6 @@ const ContactsList: React.FC<Props> = ({ contacts, onUpdate, onDelete }) => {
 
   return (
     <div>
-      <Typography variant="h5" component="h2" gutterBottom>
-        Contacts
-      </Typography>
       <List>
         {contacts.map((contact) => (
           <ListItem
