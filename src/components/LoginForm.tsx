@@ -96,7 +96,7 @@ const LoginForm: React.FC<Props> = ({
                   <Button
                     type="button"
                     variant="contained"
-                    onClick={handleRequestOTP}
+                    onClick={handleRegister}
                   >
                     Register
                   </Button>

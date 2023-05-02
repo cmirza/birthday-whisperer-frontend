@@ -7,11 +7,14 @@ import {
   Grid,
   Box,
   Button,
+  IconButton
 } from "@mui/material";
 import CakeIcon from "@mui/icons-material/Cake";
+import SettingsIcon from "@mui/icons-material/Settings";
 import LoginForm from "./components/LoginForm";
 import ContactsList from "./components/ContactsList";
 import AddContactForm from "./components/AddContactForm";
+import UserSettings from "./components/UserSettings";
 import { requestOTP, verifyOTPLogin, verifyOTPRegister } from "./api/auth";
 import {
   getContacts,
@@ -26,6 +29,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [contacts, setContacts] = useState<ContactData[]>([]);
   const [isNewUser, setIsNewUser] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -123,24 +127,40 @@ function App() {
   return (
     <Container maxWidth="md">
       <Box pt={4}>
-        <AppBar position="fixed">
-          <Toolbar sx={{ justifyContent: "center" }}>
-            <Typography
-              variant="h5"
-              component="div"
-              sx={{
-                fontWeight: "bold",
-                display: "flex",
-                alignItems: "flex-end",
-              }}
-            >
-              <CakeIcon sx={{ mr: 2, mb: .7, fontSize: "2rem" }} />
-              <Box component="span" sx={{ mt: 1 }}>
-                Birthday Whisperer
-              </Box>
-            </Typography>
+      <AppBar position="fixed">
+          <Toolbar>
+            <Box sx={{ flexGrow: 1 }}>
+              <Typography
+                variant="h5"
+                component="div"
+                sx={{
+                  fontWeight: "bold",
+                  display: "flex",
+                  alignItems: "flex-end",
+                }}
+              >
+                <CakeIcon sx={{ mr: 2, mb: 0.7, fontSize: "2rem" }} />
+                <Box component="span" sx={{ mt: 1 }}>
+                  Birthday Whisperer
+                </Box>
+              </Typography>
+            </Box>
+            {loggedIn && (
+              <IconButton
+                color="inherit"
+                onClick={() => setSettingsOpen((prevState) => !prevState)}
+              >
+                <SettingsIcon />
+              </IconButton>
+            )}
           </Toolbar>
         </AppBar>
+        {loggedIn && (
+        <UserSettings
+          open={settingsOpen}
+          onClose={() => setSettingsOpen(false)}
+        />
+      )}
         {!loggedIn && (
           <LoginForm
             onLogin={handleLogin}
