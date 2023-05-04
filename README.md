@@ -29,3 +29,6 @@ View this app on [https://birthday-whisperer-frontend.onrender.com/](https://bir
 
 #### April 27, 2023
 - Added MaterialUI
+
+#### April 30, 2023
+- Added user settings, with time zone and reminder time
