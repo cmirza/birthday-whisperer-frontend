@@ -159,6 +159,7 @@ function App() {
         <UserSettings
           open={settingsOpen}
           onClose={() => setSettingsOpen(false)}
+          handleLogout={handleLogout}
         />
       )}
         {!loggedIn && (

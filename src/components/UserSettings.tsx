@@ -3,24 +3,31 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  DialogContentText,
   DialogActions,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
   Button,
-  SelectChangeEvent,
+  SelectChangeEvent
 } from "@mui/material";
 import moment from "moment-timezone";
 
 interface UserSettingsProps {
   open: boolean;
   onClose: () => void;
+  handleLogout: () => void;
 }
 
-const UserSettings: React.FC<UserSettingsProps> = ({ open, onClose }) => {
+const UserSettings: React.FC<UserSettingsProps> = ({
+  open,
+  onClose,
+  handleLogout,
+}) => {
   const [timeZone, setTimeZone] = useState("");
   const [reminderTime, setReminderTime] = useState("");
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const handleTimeZoneChange = (event: SelectChangeEvent<string>) => {
     setTimeZone(event.target.value as string);
@@ -64,9 +71,33 @@ const UserSettings: React.FC<UserSettingsProps> = ({ open, onClose }) => {
       }
 
       console.log("Settings successfully updated");
-      
     } catch (error) {
       console.error("Error saving settings:", error);
+    }
+  };
+
+  const deleteAccount = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/account`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete account");
+      }
+
+      console.log("Account successfully deleted");
+      handleLogout();
+    } catch (error) {
+      console.error("Error deleting account:", error);
     }
   };
 
@@ -130,6 +161,9 @@ const UserSettings: React.FC<UserSettingsProps> = ({ open, onClose }) => {
         </FormControl>
       </DialogContent>
       <DialogActions>
+        <Button onClick={() => setConfirmDelete(true)} color="error">
+          Delete Account
+        </Button>
         <Button onClick={onClose} color="primary">
           Cancel
         </Button>
@@ -143,6 +177,23 @@ const UserSettings: React.FC<UserSettingsProps> = ({ open, onClose }) => {
           Save
         </Button>
       </DialogActions>
+      <Dialog open={confirmDelete} onClose={() => setConfirmDelete(false)}>
+        <DialogTitle>Confirm Deletion</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete your account? This action cannot be
+            undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setConfirmDelete(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={deleteAccount} color="error">
+            Delete Account
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Dialog>
   );
 };

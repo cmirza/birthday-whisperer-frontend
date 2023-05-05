@@ -36,3 +36,4 @@ View this app on [https://birthday-whisperer-frontend.onrender.com/](https://bir
 #### May 4, 2023
 - Turned AddContactForm and EditContactForm into dialogs
 - Added form validation for login register flow
+- Added user deletion in settings
