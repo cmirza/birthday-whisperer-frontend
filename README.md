@@ -32,3 +32,6 @@ View this app on [https://birthday-whisperer-frontend.onrender.com/](https://bir
 
 #### April 30, 2023
 - Added user settings, with time zone and reminder time
+
+#### May 4, 2023
+- Turned AddContactForm and EditContactForm into dialogs

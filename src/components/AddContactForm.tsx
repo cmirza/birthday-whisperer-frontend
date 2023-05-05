@@ -1,7 +1,17 @@
 import { useState } from "react";
 import { ContactData } from "../api/contacts";
-import { Typography, Box, Button, FormControl, TextField } from "@mui/material";
-import "./AddContactForm.css";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Box,
+  Button,
+  FormControl,
+  TextField,
+  IconButton,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 interface Props {
   onAdd: (data: ContactData) => void;
@@ -10,37 +20,39 @@ interface Props {
 const AddContactForm: React.FC<Props> = ({ onAdd }) => {
   const [name, setName] = useState("");
   const [birthdate, setBirthdate] = useState("");
-  const [showForm, setShowForm] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
     onAdd({ name, birthdate });
     setName("");
     setBirthdate("");
-    setShowForm(false);
+    setOpen(false);
   };
 
-  const handleCancel = () => {
-    setShowForm(false);
+  const handleClose = () => {
+    setOpen(false);
   };
 
-  const handleClick = () => {
-    setShowForm(true);
+  const handleOpen = () => {
+    setOpen(true);
   };
 
   return (
-    <Box component="div">
-      {!showForm && (
-        <Button onClick={handleClick} variant="contained" color="primary">
-          <Typography variant="h3" component="div" sx={{ fontSize: "1.5rem" }}>
-            +
-          </Typography>
-        </Button>
-      )}
-      {showForm && (
-        <>
+    <>
+      <IconButton onClick={handleOpen} color="primary">
+        <AddIcon />
+      </IconButton>
+      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+        <DialogTitle>Add Contact</DialogTitle>
+        <DialogContent>
           <form onSubmit={handleAdd}>
-            <Box display="flex" justifyContent="center" flexDirection="column" alignItems="center">
+            <Box
+              display="flex"
+              justifyContent="center"
+              flexDirection="column"
+              alignItems="center"
+            >
               <Box>
                 <FormControl margin="normal">
                   <TextField
@@ -73,20 +85,19 @@ const AddContactForm: React.FC<Props> = ({ onAdd }) => {
                 </FormControl>
               </Box>
             </Box>
-            <Box display="flex" justifyContent="center">
-              <Box ml={1}>
-                <Button type="submit" variant="contained" color="primary">
-                  Add
-                </Button>
-              </Box>
-              <Button onClick={handleCancel}>Cancel</Button>
-            </Box>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Cancel
+              </Button>
+              <Button type="submit" variant="contained" color="primary">
+                Add
+              </Button>
+            </DialogActions>
           </form>
-        </>
-      )}
-    </Box>
+        </DialogContent>
+      </Dialog>
+    </>
   );
-  
 };
 
 export default AddContactForm;

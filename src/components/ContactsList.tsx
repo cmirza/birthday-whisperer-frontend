@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { ContactData } from "../api/contacts";
 import EditContactForm from "./EditContactForm";
 import {
@@ -33,46 +33,44 @@ const ContactsList: React.FC<Props> = ({ contacts, onUpdate, onDelete }) => {
     <div>
       <List>
         {contacts.map((contact) => (
-          <ListItem
-            key={contact._id}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            {editingContact === contact._id ? (
-              <EditContactForm
-                contact={contact}
-                onUpdate={onUpdate}
-                onCancel={handleCancel}
+          <Fragment key={contact._id}>
+            <ListItem
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <ListItemText
+                primary={contact.name}
+                secondary={new Date(contact.birthdate).toLocaleDateString()}
               />
-            ) : (
-              <>
-                <ListItemText
-                  primary={contact.name}
-                  secondary={new Date(contact.birthdate).toLocaleDateString()}
-                />
-                <ListItemSecondaryAction>
-                  <IconButton
-                    edge="end"
-                    onClick={() => contact._id && handleEdit(contact._id)}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    edge="end"
-                    onClick={() => contact._id && onDelete(contact._id)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </>
-            )}
-          </ListItem>
+              <ListItemSecondaryAction>
+                <IconButton
+                  edge="end"
+                  onClick={() => contact._id && handleEdit(contact._id)}
+                >
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  edge="end"
+                  onClick={() => contact._id && onDelete(contact._id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+            <EditContactForm
+              contact={contact}
+              open={editingContact === contact._id}
+              onUpdate={onUpdate}
+              onCancel={handleCancel}
+            />
+          </Fragment>
         ))}
       </List>
     </div>
   );
+  
 };
 
 export default ContactsList;
