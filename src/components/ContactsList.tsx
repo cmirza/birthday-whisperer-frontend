@@ -29,6 +29,17 @@ const ContactsList: React.FC<Props> = ({ contacts, onUpdate, onDelete }) => {
     setEditingContact(null);
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const timezoneOffset = date.getTimezoneOffset() * 60 * 1000;
+    const adjustedDate = new Date(date.getTime() + timezoneOffset);
+    return new Intl.DateTimeFormat("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }).format(adjustedDate);
+  };
+
   return (
     <div>
       <List>
@@ -42,11 +53,7 @@ const ContactsList: React.FC<Props> = ({ contacts, onUpdate, onDelete }) => {
             >
               <ListItemText
                 primary={contact.name}
-                secondary={new Intl.DateTimeFormat("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                }).format(new Date(contact.birthdate))}
+                secondary={formatDate(contact.birthdate)}
               />
               <ListItemSecondaryAction>
                 <IconButton
