@@ -42,7 +42,11 @@ const ContactsList: React.FC<Props> = ({ contacts, onUpdate, onDelete }) => {
             >
               <ListItemText
                 primary={contact.name}
-                secondary={new Date(contact.birthdate).toLocaleDateString()}
+                secondary={new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                }).format(new Date(contact.birthdate))}
               />
               <ListItemSecondaryAction>
                 <IconButton
@@ -70,7 +74,6 @@ const ContactsList: React.FC<Props> = ({ contacts, onUpdate, onDelete }) => {
       </List>
     </div>
   );
-  
 };
 
 export default ContactsList;
