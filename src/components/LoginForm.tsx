@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -24,6 +24,7 @@ const LoginForm: React.FC<Props> = ({
   const [showOTPInput, setShowOTPInput] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [welcomeMessage, setWelcomeMessage] = useState(true);
 
   const isPhoneValid = (phone: string) => {
     const phoneRegex = /^\d{10}$/;
@@ -75,6 +76,16 @@ const LoginForm: React.FC<Props> = ({
   const handleCloseError = () => {
     setError(false);
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setWelcomeMessage(false);
+    }, 15000); // 15 seconds
+  
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
 
   return (
     <>
@@ -153,6 +164,16 @@ const LoginForm: React.FC<Props> = ({
           {errorMessage}
         </Alert>
       </Snackbar>
+      <Snackbar
+      open={welcomeMessage}
+      autoHideDuration={15000}
+      onClose={() => setWelcomeMessage(false)}
+      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+    >
+      <Alert onClose={() => setWelcomeMessage(false)} severity="info">
+        Welcome! Please enter your phone number to register if you're new or login if you're a returning user.
+      </Alert>
+    </Snackbar>
     </>
   );
 };
